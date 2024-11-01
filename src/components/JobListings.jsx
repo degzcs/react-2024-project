@@ -11,6 +11,7 @@ const JobListings = ({ isHome = false }) => {
                 const response = await fetch('http://localhost:3101/jobs');
                 const data = await response.json();
                 setJobs(data);
+                setLoading(false);
             }
             catch (error){
                 console.error('Error fetching data', error);
@@ -28,9 +29,14 @@ const JobListings = ({ isHome = false }) => {
                     { isHome ? 'Recent Jobs' : 'Browse Jobs' }
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                { jobs.map((job) => (
-                    <JobListing  key={job.id} job={job} />
-                )) }
+                    { loading ? (<h2>Loading...</h2>): (
+                        <>
+                            { jobs.map((job) => (
+                                <JobListing  key={job.id} job={job} />
+                            )) }
+                        </>
+
+                    ) }
                 </div>
             </div>
         </section>
