@@ -14,12 +14,12 @@ describe ('JobListings component', () => {
     });
 
     it('renders loading spinner initially', async () => {
-        render(<JobListings />);
+        fetch.mockResolvedValueOnce({
+            json: () => Promise.resolve([])
+        });
 
         act(() => {
-            fetch.mockResolvedValueOnce({
-                json: Promise.resolve([])
-            });
+            render(<JobListings />);
         });
 
         await waitFor(() => {
