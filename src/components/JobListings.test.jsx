@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import JobListings from './JobListings';
 
 global.fetch = vi.fn();
@@ -13,14 +13,18 @@ describe ('JobListings component', () => {
     afterEach(() => {
     });
 
-    it('renders loading spinner initially', () => {
-        fetch.mockResolvedValueOnce({
-            json: Promise.resolve([])
-        });
-
+    it('renders loading spinner initially', async () => {
         render(<JobListings />);
 
-        expect(screen.getByTitle('clip-loader')).toBeInTheDocument();
+        act(() => {
+            fetch.mockResolvedValueOnce({
+                json: Promise.resolve([])
+            });
+        });
+
+        await waitFor(() => {
+            expect(screen.getByTitle('clip-loader')).toBeInTheDocument();
+        });
     });
 
 })
