@@ -15,6 +15,12 @@ export default defineConfig({
             }
         },
 
-
     },
+    test: {
+        testMatch: ['**/*.test.js'],
+        gloabls: true,
+        testEnvironment: 'jsdom',
+        setupFiles: './src/setupTests.js',
+        css: true
+    }
 })
