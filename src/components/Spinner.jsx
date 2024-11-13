@@ -12,6 +12,7 @@ const Spinner = ({loading}) => {
             cssOverride={override}
             color="#000"
             size={150}
+            title="clip-loader"
         />
     )
 }
