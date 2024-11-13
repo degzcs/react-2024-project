@@ -7,13 +7,14 @@ const override = {
 
 const Spinner = ({loading}) => {
     return (
-        <ClipLoader
-            loading={loading}
-            cssOverride={override}
-            color="#000"
-            size={150}
-            title="clip-loader"
-        />
+        <div title="clip-loader">
+            <ClipLoader
+                loading={loading}
+                cssOverride={override}
+                color="#000"
+                size={150}
+            />
+        </div>
     )
 }
 

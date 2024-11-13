@@ -10,9 +10,6 @@ describe ('JobListings component', () => {
         fetch.mockClear();
     });
 
-    afterEach(() => {
-    });
-
     it('renders loading spinner initially', async () => {
         fetch.mockResolvedValueOnce({
             json: () => Promise.resolve([])
@@ -22,9 +19,44 @@ describe ('JobListings component', () => {
             render(<JobListings />);
         });
 
+        expect(screen.getByTitle('clip-loader')).toBeInTheDocument();
         await waitFor(() => {
-            expect(screen.getByTitle('clip-loader')).toBeInTheDocument();
+            expect(fetch).toHaveBeenCalledTimes(1);
         });
     });
 
+    it('does not render loading spinner', async () => {
+        const mockJobs = [
+            {
+                id: 1,
+                title: 'Software Developer',
+                type: 'Full Time',
+                description: 'Software Developer job description',
+                salary: '$100,000',
+                location: 'New York, NY'
+            },
+            {
+                id: 2,
+                title: 'Frontend Developer',
+                type: 'Part Time',
+                description: 'Frontend Developer job description',
+                salary: '$80,000',
+                location: 'Los Angeles, CA'
+            }
+        ];
+
+        fetch.mockResolvedValueOnce({
+            json: () => Promise.resolve(mockJobs)
+        });
+
+        act(() => {
+            render(<JobListings />);
+        });
+
+        // Wait for the loading spinner to disappear
+        waitFor(() => {
+            expect(screen.getByTitle('clip-loader')).not.toBeInTheDocument();
+            expect(fetch).toHaveBeenCalledTimes(1);
+        });
+    });
 })
