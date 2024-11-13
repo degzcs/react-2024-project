@@ -59,4 +59,39 @@ describe ('JobListings component', () => {
             expect(fetch).toHaveBeenCalledTimes(1);
         });
     });
+
+    it('renders job listings', async () => {
+        const mockJobs = [
+            {
+                id: 1,
+                title: 'Software Developer',
+                type: 'Full Time',
+                description: 'Software Developer job description',
+                salary: '$100,000',
+                location: 'New York, NY'
+            },
+            {
+                id: 2,
+                title: 'Frontend Developer',
+                type: 'Part Time',
+                description: 'Frontend Developer job description',
+                salary: '$80,000',
+                location: 'Los Angeles, CA'
+            }
+        ];
+
+        fetch.mockResolvedValueOnce({
+            json: () => Promise.resolve(mockJobs)
+        });
+
+        act(() => {
+            render(<MemoryRouter><JobListings /></MemoryRouter>);
+        });
+
+        // Wait for the loading spinner to disappear
+        await waitFor(() => {
+            expect(screen.getByText('Software Developer')).toBeInTheDocument();
+            expect(screen.getByText('Frontend Developer')).toBeInTheDocument();
+        });
+    })
 })
