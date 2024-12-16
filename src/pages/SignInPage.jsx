@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
 const SignInPage = () => {
+    // check where should we locate the state for login in the app
+    // probably use Redux or Context API
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -39,7 +41,8 @@ const SignInPage = () => {
                                 required
                             />
                         </div>
-                        <button type="submit">Sign In</button>
+                        <button className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
+                        type="submit">Sign In</button>
                     </form>
                 </div>
             </div>
