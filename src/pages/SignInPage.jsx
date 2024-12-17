@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const SignInPage = () => {
     // check where should we locate the state for login in the app
@@ -34,11 +35,15 @@ const SignInPage = () => {
         setErrors(errors);
 
         if (valid) {
+            toast.success('Job updated successfully');
             // Handle sign-in logic here
             // send request to the server
             console.log('Email:', email);
             console.log('Password:', password);
+        } else {
+            toast.error('Failed to sign in');
         }
+
     }
 
     return (

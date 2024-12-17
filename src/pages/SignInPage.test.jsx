@@ -1,8 +1,20 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import SignInPage from './SignInPage';
+import { toast } from 'react-toastify';
+
+vi.mock('react-toastify', () => ({
+  toast: {
+    success: vi.fn(),
+    error: vi.fn(),
+  },
+}));
 
 describe ('SignInPage', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
     it('renders sign in page', () => {
         render(<SignInPage />);
         expect(screen.getByText('Email:')).toBeInTheDocument();
@@ -23,14 +35,9 @@ describe ('SignInPage', () => {
         fireEvent.click(screen.getByText('Sign In'));
         expect(screen.queryByText('Invalid email address')).toBeInTheDocument();
         expect(screen.queryByText('Password must be at least 6 characters')).toBeInTheDocument();
+        expect(toast.error).toHaveBeenCalledWith('Failed to sign in');
     });
 
-    it('show a toast after successed login', () => {
-        expect(true).toBe(true);
-    });
-    it('show a toast after failed login', () => {
-        expect(true).toBe(true);
-    });
     it('submits the form', () => {
         render(<SignInPage />);
         const emailInput = screen.getByPlaceholderText('Enter your email');
@@ -43,6 +50,7 @@ describe ('SignInPage', () => {
         fireEvent.click(screen.getByText('Sign In'));
         expect(screen.queryByText('Invalid email address')).not.toBeInTheDocument();
         expect(screen.queryByText('Password must be at least 6 characters')).not.toBeInTheDocument
+        expect(toast.success).toHaveBeenCalledWith('Job updated successfully');
     });
     it('redirects to home page', () => {
         expect(true).toBe(true);
