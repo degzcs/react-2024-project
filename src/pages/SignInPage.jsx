@@ -5,9 +5,40 @@ const SignInPage = () => {
     // probably use Redux or Context API
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({ email: '', password: '' });
+
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    const validatePassword = (password) => {
+        return password.length >= 6;
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        let valid = true;
+        let errors = { email: '', password: '' };
+
+        if (!validateEmail(email)) {
+            errors.email = 'Invalid email address';
+            valid = false;
+        }
+
+        if (!validatePassword(password)) {
+            errors.password = 'Password must be at least 6 characters';
+            valid = false;
+        }
+
+        setErrors(errors);
+
+        if (valid) {
+            // Handle sign-in logic here
+            // send request to the server
+            console.log('Email:', email);
+            console.log('Password:', password);
+        }
     }
 
     return (
@@ -28,6 +59,7 @@ const SignInPage = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
+                            {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
                         </div>
                         <div className="mb-4">
                             <label>Password:</label>
@@ -40,6 +72,7 @@ const SignInPage = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
+                            {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
                         </div>
                         <button className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
                         type="submit">Sign In</button>
